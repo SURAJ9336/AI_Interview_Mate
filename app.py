@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 import pypdf
 import google.generativeai as genai
 
-# Step 1: Load API Key
+#  Load API Key
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Step 2: Extract text from uploaded PDF
+# Extract text from uploaded PDF
 def extract_text_from_pdf(file):
     reader = pypdf.PdfReader(file)
     text = ""
@@ -16,7 +16,7 @@ def extract_text_from_pdf(file):
         text += page.extract_text() + "\n"
     return text
 
-# Step 3: Gemini prompt + response
+#Gemini prompt + response
 def generate_interview_questions(resume_text):
     prompt = f"""
 You are an AI assistant that generates interview questions based on resume content.
@@ -32,9 +32,9 @@ If the resume lacks detail, generate standard software developer interview quest
     response = model.generate_content(prompt)
     return response.text
 
-# Step 4: Streamlit UI
-st.set_page_config(page_title="AI Interview Question Generator", layout="centered")
-st.title("🎯 AI Interview Question Generator")
+# Streamlit UI
+st.set_page_config(page_title="AI Interview Mate", layout="centered")
+st.title(" AI Interview Mate")
 st.write("Upload your resume (PDF) and generate customized interview questions.")
 
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type=["pdf"])
@@ -51,6 +51,14 @@ if uploaded_file:
     if st.button("Generate Questions") and resume_text:
         with st.spinner("Generating smart interview questions..."):
             result = generate_interview_questions(resume_text)
-            st.markdown("### 📋 AI-Generated Interview Questions:")
+            st.markdown("###  AI-Generated Interview Questions:")
             st.write(result)
             st.success("Done!")
+
+            #  Add download button
+            st.download_button(
+                label=" Download Questions as TXT",
+                data=result,
+                file_name="AI_Interview_Questions.txt",
+                mime="text/plain"
+            )
