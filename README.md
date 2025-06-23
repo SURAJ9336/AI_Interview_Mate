@@ -82,7 +82,8 @@ HR screening automation
 
 AI-powered hiring assistant
 
-
+Deployment Link
+https://interviewmate-ai.streamlit.app/
 
 📄 Author
 Suraj Kumar
